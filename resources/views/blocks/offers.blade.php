@@ -20,7 +20,7 @@
                         >
                             Оставить заявку
                         </button>
-                        <a class="btn btn-white" href="{{ route('stocks') }}">Подробнее</a>
+                        <a class="btn btn-white" href="/stocks">Подробнее</a>
                     </div>
                 </div>
 
@@ -40,7 +40,7 @@
                         >
                             Оставить заявку
                         </button>
-                        <a class="btn btn-white" href="{{ route('stocks') }}">Подробнее</a>
+                        <a class="btn btn-white" href="/stocks">Подробнее</a>
                     </div>
                 </div>
             </div>

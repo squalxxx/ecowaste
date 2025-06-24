@@ -1,7 +1,10 @@
-<section class="section services">
-    <div class="container">
-        <h2 class="title">Наши услуги</h2>
+<div class="hero">
+        <div class="container">
+            <h1 style="color:#000;">Услуги</h1>
+        </div>
+    </div>
 
+    <div class="container">
         <div class="services__items">
             <div class="services__col">
                 <a
@@ -34,4 +37,7 @@
             </div>
         </div>
     </div>
-</section>
+
+    @include('blocks.how-work')
+
+    @include('blocks.about')

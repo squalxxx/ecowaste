@@ -1,12 +1,18 @@
-<section class="section services">
-    <div class="container">
-        <h2 class="title">Наши услуги</h2>
+@extends('layouts.app-render')
 
+@section('content')
+    <div class="hero">
+        <div class="container">
+            <h1 style="color:#000;">Услуги</h1>
+        </div>
+    </div>
+
+    <div class="container">
         <div class="services__items">
             <div class="services__col">
                 <a
                     class="services-item"
-                    href="/services/disposal"
+                    href="{{ route('services.disposal') }}"
                     style="background-image: url({{ asset('storage/images/services/services-img-4.png') }});"
                 >
                     <span>Утилизация <br> отходов</span>
@@ -16,7 +22,7 @@
             <div class="services__col">
                 <a
                     class="services-item"
-                    href="/services/shipping"
+                    href="{{ route('services.shipping') }}"
                     style="background-image: url({{ asset('storage/images/services/services-img-7.png') }});"
                 >
                     <span>Транспортировка <br> отходов</span>
@@ -26,7 +32,7 @@
             <div class="services__col">
                 <a
                     class="services-item"
-                    href="/services/passportisation"
+                    href="{{ route('services.passportisation') }}"
                     style="background-image: url({{ asset('storage/images/services/services-img-8.png') }});"
                 >
                     <span>Паспортизация отходов 1-4 класса опасности</span>
@@ -34,4 +40,8 @@
             </div>
         </div>
     </div>
-</section>
+
+    @include('blocks.how-work')
+
+    @include('blocks.about')
+@endsection

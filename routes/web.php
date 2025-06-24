@@ -1,70 +1,54 @@
 <?php
 
-use App\Http\Controllers\Lk\IndexController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\RequestController;
+use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Site\SiteController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('lk')
+Route::get('/', function () {
+    return redirect()->route('page.show', ['path' => 'home']);
+});
+
+Route::prefix('admin')
     ->group(function () {
         Auth::routes();
 
         Route::middleware('auth')
-            ->name('lk.')
+            ->name('admin.')
             ->group(function () {
-                Route::get('/', IndexController::class)->name('index');
+                Route::get('/', [AdminController::class, 'index'])->name('index');
 
-                Route::namespace('App\Http\Controllers\Lk\Profile')
-                    ->prefix('profile')
-                    ->name('profile.')
-                    ->group(function () {
-                        Route::get('/edit', 'EditController')->name('edit');
-                        Route::put('/update', 'UpdateController')->name('update');
-                    });
+                Route::resource('pages', PageController::class);
 
-                Route::namespace('App\Http\Controllers\Lk\Request')
-                    ->prefix('requests')
+                Route::prefix('requests')
                     ->name('requests.')
                     ->group(function () {
-                        Route::get('/', 'IndexController')->name('index');
-                        Route::post('/', 'StoreController')->name('store');
-                        Route::get('/{modelRequest}/edit', 'EditController')->name('edit');
-                        Route::put('/{modelRequest}', 'UpdateController')->name('update');
+                        Route::get('/', [RequestController::class, 'index'])->name('index');
+                        Route::post('/', [RequestController::class, 'store'])->name('store');
+                        Route::get('/{modelRequest}/edit', [RequestController::class, 'edit'])->name('edit');
+                        Route::put('/{modelRequest}', [RequestController::class, 'update'])->name('update');
+                    });
+
+                Route::prefix('profile')
+                    ->name('profile.')
+                    ->group(function () {
+                        Route::get('/edit', [ProfileController::class, 'edit'])->name('edit');
+                        Route::put('/update', [ProfileController::class, 'update'])->name('update');
+                    });
+
+                Route::prefix('settings')
+                    ->name('settings.')
+                    ->group(function () {
+                        Route::get('/edit', [SettingsController::class, 'edit'])->name('edit');
+                        Route::put('/update', [SettingsController::class, 'update'])->name('update');
                     });
             });
     });
 
-Route::get('/', function () {
-    return view('pages.index');
-})->name('index');
-
-Route::get('/services', function () {
-    return view('pages.services');
-})->name('services');
-
-Route::get('/services/disposal', function () {
-    return view('pages.services.disposal');
-})->name('services.disposal');
-
-Route::get('/services/shipping', function () {
-    return view('pages.services.shipping');
-})->name('services.shipping');
-
-Route::get('/services/passportisation', function () {
-    return view('pages.services.passportisation');
-})->name('services.passportisation');
-
-Route::get('/about', function () {
-    return view('pages.about');
-})->name('about');
-
-Route::get('/reviews', function () {
-    return view('pages.reviews');
-})->name('reviews');
-
-Route::get('/stocks', function () {
-    return view('pages.stocks');
-})->name('stocks');
-
-Route::get('/contacts', function () {
-    return view('pages.contacts');
-})->name('contacts');
+Route::get('{path}', [SiteController::class, 'page'])
+    ->where('path', '.*')
+    ->name('page.show');
